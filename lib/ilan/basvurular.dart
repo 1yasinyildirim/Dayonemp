@@ -9,12 +9,24 @@ class Basvurular extends StatefulWidget {
 }
 
 class _BasvurularState extends State<Basvurular> {
+
+  Future<Null> refresh() async {
+    await Future.delayed(Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Card(
+        body: RefreshIndicator(
+              onRefresh: refresh,
+              backgroundColor: Colors.pink.shade900,
+              color: Colors.amber,
+          child: ListView(
+            padding: EdgeInsets.all(0),
+            children: [
+              ListTile(
+                  contentPadding: EdgeInsets.fromLTRB(0,5,0,0),
+                          title:Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(
                 width: 2,
@@ -60,6 +72,10 @@ class _BasvurularState extends State<Basvurular> {
               ),
             ]))
           ])),
-    ));
+              ),                
+            ],
+          ),
+      ),
+    );
   }
 }

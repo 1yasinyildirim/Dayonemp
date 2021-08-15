@@ -9,12 +9,23 @@ class Ilanlar extends StatefulWidget {
 }
 
 class _IlanlarState extends State<Ilanlar> {
+ Future<Null> refresh() async {
+    await Future.delayed(Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Card(
+        body: RefreshIndicator(
+              onRefresh: refresh,
+              backgroundColor: Colors.pink.shade900,
+              color: Colors.amber,
+          child: ListView(
+            padding: EdgeInsets.all(0),
+            children: [
+              ListTile(
+                  contentPadding: EdgeInsets.fromLTRB(0,5,0,0),
+                          title:Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(
                 width: 2,
@@ -30,7 +41,7 @@ class _IlanlarState extends State<Ilanlar> {
             ListTile(
               leading: Icon(Icons.cases_outlined, color: Colors.amber),
               title: Text('Ad Soyad'),
-              subtitle: Text('ilanı verilmiştir'),
+              subtitle: Text('ilanını verilmiştir.'),
             ),
             ButtonTheme(
                 child: ButtonBar(children: <Widget>[
@@ -60,6 +71,10 @@ class _IlanlarState extends State<Ilanlar> {
               ),
             ]))
           ])),
-    ));
+              ),                
+            ],
+          ),
+      ),
+    );
   }
 }
