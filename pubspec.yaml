@@ -25,7 +25,7 @@ dependencies:
   syncfusion_flutter_sliders: ^19.2.51
   rflutter_alert: ^2.0.4
   page_transition: ^2.0.1-nullsafety.0
-  google_sign_in: ^4.0.16
+
 
 dev_dependencies:
   flutter_test:

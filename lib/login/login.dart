@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:dayonemp/home.dart';
 import 'package:dayonemp/login/register.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:page_transition/page_transition.dart';
- 
+import 'package:dayonemp/home.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -104,116 +102,73 @@ bool _isObscure = true;
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Dayonemp",
-      theme: ThemeData(
-        dialogTheme: DialogTheme(),
-        //brightness: Brightness.dark,
-        primarySwatch: Colors.amber,
-      ),
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 20.0),
-                child: Center(
-                    child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.pink.shade900,
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: Center(
+                  child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.pink.shade900,
+                    width: 3,
                   ),
-                  alignment: Alignment.center,
-                  width: 250,
-                  height: 70,
-                  child: Text(
-                    "Dayonemp",
-                    style: GoogleFonts.fugazOne(
-                      color: Colors.pink.shade900,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      topRight: Radius.circular(25)),
+                ),
+                alignment: Alignment.center,
+                width: 250,
+                height: 70,
+                child: Text(
+                  "Dayonemp",
+                  style: GoogleFonts.fugazOne(
+                    color: Colors.pink.shade900,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
                   ),
-                )),
-              ),
-              Container(
-                height: 325,
-                margin: EdgeInsets.all(15),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 3, color: Colors.pink.shade900),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        //padding:  EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                        padding: EdgeInsets.symmetric(horizontal: 0),
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(25, 25, 25, 10),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0, right: 0, top: 0, bottom: 0),
-                            child: TextField(
-                              keyboardType: TextInputType.emailAddress,
-                              cursorColor: Colors.amber,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.mail_outlined),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.amber,
-                                    width: 30,
-                                  ),
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(25),
-                                      bottomLeft: Radius.circular(25)),
-                                ),
-                                //labelStyle: TextStyle(color: Colors.amber),
-                                labelText: 'Email',
-                                hintText: 'E-malinizi girin',
-                                hintStyle: TextStyle(
-                                  color: Colors.amber,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                ),
+              )),
+            ),
+            Container(
+              height: 325,
+              margin: EdgeInsets.all(15),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(width: 3, color: Colors.pink.shade900),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      topRight: Radius.circular(25)),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      //padding:  EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(25, 25, 25, 10),
                         child: Padding(
                           padding: EdgeInsets.only(
                               left: 0, right: 0, top: 0, bottom: 0),
-                          //padding: EdgeInsets.symmetric(horizontal: 15),
                           child: TextField(
+                            keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.amber,
-                            obscureText: _isObscure,
                             decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  icon: Icon(_isObscure
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isObscure = !_isObscure;
-                                    });
-                                  }),
+                              suffixIcon: Icon(Icons.mail_outlined),
                               border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.amber,
+                                  width: 30,
+                                ),
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(25),
                                     bottomLeft: Radius.circular(25)),
                               ),
                               //labelStyle: TextStyle(color: Colors.amber),
-                              labelText: 'Şifre',
-                              hintText: 'Şifrenizi Girin',
+                              labelText: 'Email',
+                              hintText: 'E-malinizi girin',
                               hintStyle: TextStyle(
                                 color: Colors.amber,
                               ),
@@ -221,168 +176,203 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      FlatButton(
-                        onPressed: () => _dialogalert(context),
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(0, 25, 0, 35),
-                          child: Text(
-                            'Şifremi Unuttum',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0, right: 0, top: 0, bottom: 0),
+                        //padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: TextField(
+                          cursorColor: Colors.amber,
+                          obscureText: _isObscure,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                icon: Icon(_isObscure
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                }),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(25),
+                                  bottomLeft: Radius.circular(25)),
+                            ),
+                            //labelStyle: TextStyle(color: Colors.amber),
+                            labelText: 'Şifre',
+                            hintText: 'Şifrenizi Girin',
+                            hintStyle: TextStyle(
                               color: Colors.amber,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
                       ),
-                      Builder(
-                        builder: (context) => Container(
-                          height: 50,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: Colors.pink.shade900,
+                    ),
+                    FlatButton(
+                      onPressed: () => _dialogalert(context),
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(0, 25, 0, 35),
+                        child: Text(
+                          'Şifremi Unuttum',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.amber,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Builder(
+                      builder: (context) => Container(
+                        height: 50,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.pink.shade900,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(25),
+                              topRight: Radius.circular(25)),
+                        ),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 2.5, color: Colors.amber),
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(25),
                                 topRight: Radius.circular(25)),
                           ),
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(width: 2.5, color: Colors.amber),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(25),
-                                  topRight: Radius.circular(25)),
-                            ),
-                            onPressed: () => showSnackBar(context),
-                            child: Text(
-                              'Giris Yap',
-                              style: GoogleFonts.fugazOne(
-                                color: Colors.amber,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          onPressed: () => showSnackBar(context),
+                          child: Text(
+                            'Giris Yap',
+                            style: GoogleFonts.fugazOne(
+                              color: Colors.amber,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              FlatButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    duration: Duration(milliseconds: 500),
-                    child: Register(),
-                  ),
-                ),
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                  child: Text(
-                    'Hesabınız yoksa kaydolun',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.pink.shade900,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: <Color>[
-                              Colors.grey.shade50,
-                              Colors.grey,
-                            ],
-                            begin: FractionalOffset(0.0, 0.0),
-                            end: FractionalOffset(1.0, 1.0),
-                            stops: <double>[0.0, 1.0],
-                            tileMode: TileMode.clamp),
-                      ),
-                      width: 100.0,
-                      height: 1.0,
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.only(left: 15.0, right: 15.0, bottom: 5),
-                      child: Text(
-                        'veya',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                            fontFamily: 'WorkSansMedium'),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: <Color>[
-                              Colors.grey,
-                              Colors.grey.shade50,
-                            ],
-                            begin: FractionalOffset(0.0, 0.0),
-                            end: FractionalOffset(1.0, 1.0),
-                            stops: <double>[0.0, 1.0],
-                            tileMode: TileMode.clamp),
-                      ),
-                      width: 100.0,
-                      height: 1.0,
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 30,
+            ),
+            FlatButton(
+              onPressed: () => Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  duration: Duration(milliseconds: 500),
+                  child: Register(),
+                ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+              child: Container(
+                margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                child: Text(
+                  'Hesabınız yoksa kaydolun',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.pink.shade900,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
                   Container(
-                    child: Ink(
-                      decoration: ShapeDecoration(
-                        color: Colors.amber,
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                        icon: Icon(LineIcons.googlePlusG),
-                        color: Colors.pink.shade900,
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HostHome()),
-                        ),
-                      ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: <Color>[
+                            Colors.grey.shade50,
+                            Colors.grey,
+                          ],
+                          begin: FractionalOffset(0.0, 0.0),
+                          end: FractionalOffset(1.0, 1.0),
+                          stops: <double>[0.0, 1.0],
+                          tileMode: TileMode.clamp),
+                    ),
+                    width: 100.0,
+                    height: 1.0,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 15.0, right: 15.0, bottom: 5),
+                    child: Text(
+                      'veya',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16.0,
+                          fontFamily: 'WorkSansMedium'),
                     ),
                   ),
                   Container(
-                    child: Ink(
-                      decoration: ShapeDecoration(
-                        color: Colors.amber,
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                          icon: Icon(LineIcons.facebook),
-                          color: Colors.pink.shade900,
-                          onPressed: onPressed),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: <Color>[
+                            Colors.grey,
+                            Colors.grey.shade50,
+                          ],
+                          begin: FractionalOffset(0.0, 0.0),
+                          end: FractionalOffset(1.0, 1.0),
+                          stops: <double>[0.0, 1.0],
+                          tileMode: TileMode.clamp),
                     ),
+                    width: 100.0,
+                    height: 1.0,
                   ),
                 ],
               ),
-              Container(
-                height: 30,
-              ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  child: Ink(
+                    decoration: ShapeDecoration(
+                      color: Colors.amber,
+                      shape: CircleBorder(),
+                    ),
+                    child: IconButton(
+                      icon: Icon(LineIcons.googlePlusG),
+                      color: Colors.pink.shade900,
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Ink(
+                    decoration: ShapeDecoration(
+                      color: Colors.amber,
+                      shape: CircleBorder(),
+                    ),
+                    child: IconButton(
+                        icon: Icon(LineIcons.facebook),
+                        color: Colors.pink.shade900,
+                        onPressed: () => Navigator.push(  
+    context,  
+    MaterialPageRoute(builder: (context) => HostHome()),  
+  ),
+                  ),
+                ),
+                ),
+              ],
+            ),
+            Container(
+              height: 30,
+            ),
+          ],
         ),
       ),
     );

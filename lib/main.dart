@@ -4,11 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'login/login.dart';
 import 'package:page_transition/page_transition.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(Dayonemp());
 }
 
-class MyApp extends StatelessWidget {
+class Dayonemp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Dayonemp",
