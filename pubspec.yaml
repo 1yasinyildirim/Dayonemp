@@ -25,6 +25,10 @@ dependencies:
   syncfusion_flutter_sliders: ^19.2.51
   rflutter_alert: ^2.0.4
   page_transition: ^2.0.1-nullsafety.0
+  provider: ^5.0.0
+  google_sign_in: ^5.0.7
+  firebase_core: ^1.4.0
+  firebase_auth: ^3.0.1
 
 
 dev_dependencies:

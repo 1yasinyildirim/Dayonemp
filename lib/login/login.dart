@@ -5,103 +5,26 @@ import 'package:dayonemp/login/register.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:dayonemp/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
-_dialogalert(context) {
-  Alert(
-      onWillPopActive: true,
-      closeIcon: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(width: 3, color: Colors.red),
-          ),
-          padding: EdgeInsets.all(2),
-          child: Icon(Icons.close_outlined, size: 25, color: Colors.red)),
-      style: AlertStyle(
-        alertPadding: EdgeInsets.all(20),
-        overlayColor: Colors.white,
-        animationType: AnimationType.shrink,
-        animationDuration: Duration(milliseconds: 600),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(25), topRight: Radius.circular(25)),
-          side: BorderSide(
-            color: Colors.amber,
-            width: 3,
-          ),
-        ),
-      ),
-      context: context,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: [
-              Icon(Icons.error_outline_outlined, size: 60, color: Colors.red),
-              Text(
-                "Şifrenizi yenilemek için\nmailinizi giriniz...",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(5, 25, 5, 10),
-            child: TextField(
-              keyboardType: TextInputType.emailAddress,
-              cursorColor: Colors.amber,
-              decoration: InputDecoration(
-                suffixIcon: Icon(Icons.mail_outlined),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.amber,
-                    width: 30,
-                  ),
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(25),
-                      bottomLeft: Radius.circular(25)),
-                ),
-                //labelStyle: TextStyle(color: Colors.amber),
-                labelText: 'Email',
-                hintText: 'E-malinizi girin',
-                hintStyle: TextStyle(
-                  color: Colors.amber,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          width: MediaQuery.of(context).size.height * 0.15,
-          border: Border.all(width: 3, color: Colors.amber),
-          color: Colors.pink.shade900,
-          radius: BorderRadius.only(
-              bottomLeft: Radius.circular(15), topRight: Radius.circular(15)),
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            "Gonder",
-            style: GoogleFonts.fugazOne(
-              color: Colors.amber,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        )
-      ]).show();
-}
-
 bool _isObscure = true;
 
 class _LoginState extends State<Login> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
   @override
   Widget build(BuildContext context) {
+    GoogleSignInAccount? user = _googleSignIn.currentUser;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -153,6 +76,7 @@ class _LoginState extends State<Login> {
                           padding: EdgeInsets.only(
                               left: 0, right: 0, top: 0, bottom: 0),
                           child: TextField(
+                            controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.amber,
                             decoration: InputDecoration(
@@ -184,6 +108,7 @@ class _LoginState extends State<Login> {
                             left: 0, right: 0, top: 0, bottom: 0),
                         //padding: EdgeInsets.symmetric(horizontal: 15),
                         child: TextField(
+                          controller: passwordController,
                           cursorColor: Colors.amber,
                           obscureText: _isObscure,
                           decoration: InputDecoration(
@@ -243,7 +168,15 @@ class _LoginState extends State<Login> {
                                 bottomLeft: Radius.circular(25),
                                 topRight: Radius.circular(25)),
                           ),
-                          onPressed: () => showSnackBar(context),
+                          onPressed: () async {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                                setState(() {
+                                  
+                                });
+                          }, //showSnackBar(context),
                           child: Text(
                             'Giris Yap',
                             style: GoogleFonts.fugazOne(
@@ -347,7 +280,11 @@ class _LoginState extends State<Login> {
                     child: IconButton(
                       icon: Icon(LineIcons.googlePlusG),
                       color: Colors.pink.shade900,
-                      onPressed: () {},
+                      onPressed: () async {
+                        await _googleSignIn.signIn();
+                        setState() {}
+                        ;
+                      },
                     ),
                   ),
                 ),
@@ -360,12 +297,17 @@ class _LoginState extends State<Login> {
                     child: IconButton(
                         icon: Icon(LineIcons.facebook),
                         color: Colors.pink.shade900,
-                        onPressed: () => Navigator.push(  
-    context,  
-    MaterialPageRoute(builder: (context) => HostHome()),  
-  ),
+                        onPressed: () 
+                        async {
+                      await FirebaseAuth.instance.signOut();
+                      setState(() {}); 
+                    },
+                        
+                        /*async {
+                          await _googleSignIn.signOut();
+                          setState(() {});
+                        }*/),
                   ),
-                ),
                 ),
               ],
             ),
@@ -401,4 +343,90 @@ showSnackBar(BuildContext context) {
         disabledTextColor: Colors.grey,
       ));
   Scaffold.of(context).showSnackBar(snackBar);
+}
+
+_dialogalert(context) {
+  Alert(
+      onWillPopActive: true,
+      closeIcon: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(width: 3, color: Colors.red),
+          ),
+          padding: EdgeInsets.all(2),
+          child: Icon(Icons.close_outlined, size: 25, color: Colors.red)),
+      style: AlertStyle(
+        alertPadding: EdgeInsets.all(20),
+        overlayColor: Colors.white,
+        animationType: AnimationType.shrink,
+        animationDuration: Duration(milliseconds: 600),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(25), topRight: Radius.circular(25)),
+          side: BorderSide(
+            color: Colors.amber,
+            width: 3,
+          ),
+        ),
+      ),
+      context: context,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: [
+              Icon(Icons.error_outline_outlined, size: 60, color: Colors.red),
+              Text(
+                "Şifrenizi yenilemek için\nmailinizi giriniz...",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(5, 25, 5, 10),
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              cursorColor: Colors.amber,
+              decoration: InputDecoration(
+                suffixIcon: Icon(Icons.mail_outlined),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.amber,
+                    width: 30,
+                  ),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(25),
+                      bottomLeft: Radius.circular(25)),
+                ),
+                //labelStyle: TextStyle(color: Colors.amber),
+                labelText: 'Email',
+                hintText: 'E-malinizi girin',
+                hintStyle: TextStyle(
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          width: MediaQuery.of(context).size.height * 0.15,
+          border: Border.all(width: 3, color: Colors.amber),
+          color: Colors.pink.shade900,
+          radius: BorderRadius.only(
+              bottomLeft: Radius.circular(15), topRight: Radius.circular(15)),
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Gonder",
+            style: GoogleFonts.fugazOne(
+              color: Colors.amber,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ]).show();
 }

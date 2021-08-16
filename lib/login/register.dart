@@ -5,6 +5,8 @@ import 'package:dayonemp/home.dart';
 import 'package:dayonemp/login/login.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -25,8 +27,8 @@ _dialogalert(context) {
           padding: EdgeInsets.all(2),
           child: Icon(Icons.close_outlined, size: 25, color: Colors.red)),
       style: AlertStyle(
-                alertPadding: EdgeInsets.all(20),
-                overlayColor: Colors.white,
+        alertPadding: EdgeInsets.all(20),
+        overlayColor: Colors.white,
         animationType: AnimationType.shrink,
         animationDuration: Duration(milliseconds: 600),
         alertBorder: RoundedRectangleBorder(
@@ -44,7 +46,8 @@ _dialogalert(context) {
         children: <Widget>[
           Row(
             children: [
-              Icon(Icons.remove_circle_outline_outlined, size: 60, color: Colors.red),
+              Icon(Icons.remove_circle_outline_outlined,
+                  size: 60, color: Colors.red),
               Text(
                 " Bazı bilgilerinizi eksik\ngirdiginizden dolayı kayıt\nişleminiz başarılı olmadı...",
                 style: TextStyle(
@@ -76,6 +79,11 @@ _dialogalert(context) {
 }
 
 class _RegisterState extends State<Register> {
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -90,16 +98,19 @@ class _RegisterState extends State<Register> {
               Padding(
                 padding: EdgeInsets.only(top: 20.0),
                 child: Center(
-                  child: Container(
+                    child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                    color: Colors.pink.shade900,
-                    width: 3,
-      ),
-    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(25), topRight: Radius.circular(25)),
-  ),
+                      color: Colors.pink.shade900,
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(25),
+                        topRight: Radius.circular(25)),
+                  ),
                   alignment: Alignment.center,
-                  width:250, height:70,
+                  width: 250,
+                  height: 70,
                   child: Text(
                     "Dayonemp",
                     style: GoogleFonts.fugazOne(
@@ -108,8 +119,7 @@ class _RegisterState extends State<Register> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                )
-                ),
+                )),
               ),
               Container(
                 height: 500,
@@ -189,6 +199,7 @@ class _RegisterState extends State<Register> {
                               left: 15.0, right: 15.0, top: 0, bottom: 0),
                           //padding: EdgeInsets.symmetric(horizontal: 15),
                           child: TextField(
+                            controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.amber,
                             decoration: InputDecoration(
@@ -215,6 +226,7 @@ class _RegisterState extends State<Register> {
                               left: 15.0, right: 15.0, top: 0, bottom: 0),
                           //padding: EdgeInsets.symmetric(horizontal: 15),
                           child: TextField(
+                            controller: passwordController,
                             cursorColor: Colors.amber,
                             obscureText: _isObscure,
                             decoration: InputDecoration(
@@ -292,7 +304,15 @@ class _RegisterState extends State<Register> {
                                 bottomLeft: Radius.circular(25),
                                 topRight: Radius.circular(25)),
                           ),
-                          onPressed: () => _dialogalert(context),
+                          onPressed: () async {
+                            await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                                setState(() {
+                                  
+                                });
+                          }, // => _dialogalert(context),
                           child: Text(
                             'Kayıt Ol',
                             style: GoogleFonts.fugazOne(
