@@ -5,7 +5,7 @@ import 'login/login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() async {
+Future <void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(Dayonemp());
@@ -14,6 +14,7 @@ void main() async {
 class Dayonemp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
+      //theme:ThemeData(brightness:Brightness.dark),
       title: "Dayonemp",
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(

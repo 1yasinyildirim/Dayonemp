@@ -80,12 +80,17 @@ _dialogalert(context) {
 
 class _RegisterState extends State<Register> {
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  String errorMessage = '';
+  bool isLoading = false;
 
 
   @override
   Widget build(BuildContext context) {
+
+    User? users = FirebaseAuth.instance.currentUser;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -122,7 +127,7 @@ class _RegisterState extends State<Register> {
                 )),
               ),
               Container(
-                height: 500,
+                height: 575,
                 margin: EdgeInsets.all(20),
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -131,33 +136,62 @@ class _RegisterState extends State<Register> {
                         bottomLeft: Radius.circular(25),
                         topRight: Radius.circular(25)),
                   ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        //padding:  EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(10, 25, 10, 10),
+                  child: Form(
+                    key : _key,
+                                      child: Column(
+                      children: [
+                        Padding(
+                          //padding:  EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 25, 10, 10),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 0, right: 0, top: 0, bottom: 0),
+                              child: TextField(
+                                keyboardType: TextInputType.name,
+                                cursorColor: Colors.amber,
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(LineIcons.userCircle),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.amber,
+                                      width: 30,
+                                    ),
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(25),
+                                        bottomLeft: Radius.circular(25)),
+                                  ),
+                                  //labelStyle: TextStyle(color: Colors.amber),
+                                  labelText: 'Adınız',
+                                  hintText: 'Adınızı Yazınız...',
+                                  hintStyle: TextStyle(
+                                    color: Colors.amber,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: 0, right: 0, top: 0, bottom: 0),
+                                left: 15.0, right: 15.0, top: 0, bottom: 0),
+                            //padding: EdgeInsets.symmetric(horizontal: 15),
                             child: TextField(
                               keyboardType: TextInputType.name,
                               cursorColor: Colors.amber,
                               decoration: InputDecoration(
                                 suffixIcon: Icon(LineIcons.userCircle),
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.amber,
-                                    width: 30,
-                                  ),
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(25),
                                       bottomLeft: Radius.circular(25)),
                                 ),
                                 //labelStyle: TextStyle(color: Colors.amber),
-                                labelText: 'Adınız',
-                                hintText: 'Adınızı Yazınız...',
+                                labelText: 'Soyadınız',
+                                hintText: 'Soyadınızı Giriniz...',
                                 hintStyle: TextStyle(
                                   color: Colors.amber,
                                 ),
@@ -165,165 +199,168 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(10),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 0, bottom: 0),
-                          //padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: TextField(
-                            keyboardType: TextInputType.name,
-                            cursorColor: Colors.amber,
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(LineIcons.userCircle),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(25),
-                                    bottomLeft: Radius.circular(25)),
-                              ),
-                              //labelStyle: TextStyle(color: Colors.amber),
-                              labelText: 'Soyadınız',
-                              hintText: 'Soyadınızı Giriniz...',
-                              hintStyle: TextStyle(
-                                color: Colors.amber,
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 15.0, right: 15.0, top: 0, bottom: 0),
+                            //padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  cursorColor: Colors.amber,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(Icons.mail_outlined),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(25),
+                                          bottomLeft: Radius.circular(25)),
+                                    ),
+                                    //labelStyle: TextStyle(color: Colors.amber),
+                                    labelText: 'Email',
+                                    hintText: 'Emalinizi Girin',
+                                    hintStyle: TextStyle(
+                                      color: Colors.amber,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 15.0, right: 15.0, top: 0, bottom: 0),
+                            //padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: passwordController,
+                                  cursorColor: Colors.amber,
+                                  obscureText: _isObscure,
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                        icon: Icon(_isObscure
+                                            ? Icons.visibility_off_outlined
+                                            : Icons.visibility_outlined),
+                                        onPressed: () {
+                                          setState(() {
+                                            _isObscure = !_isObscure;
+                                          });
+                                        }),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(25),
+                                          bottomLeft: Radius.circular(25)),
+                                    ),
+                                    //labelStyle: TextStyle(color: Colors.amber),
+                                    labelText: 'Şifre',
+                                    hintText: 'Şifrenizi Girin...',
+                                    hintStyle: TextStyle(
+                                      color: Colors.amber,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 25),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 15.0, right: 15.0, top: 0, bottom: 0),
+                            //padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: TextField(
+                              cursorColor: Colors.amber,
+                              obscureText: _isobscure,
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    icon: Icon(_isobscure
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isobscure = !_isobscure;
+                                      });
+                                    }),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(25),
+                                      bottomLeft: Radius.circular(25)),
+                                ),
+                                //labelStyle: TextStyle(color: Colors.amber),
+                                labelText: 'Şifre Tekrar',
+                                hintText: 'Şifrenizi Tekrar Girin',
+                                hintStyle: TextStyle(
+                                  color: Colors.amber,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(10),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 0, bottom: 0),
-                          //padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: TextField(
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            cursorColor: Colors.amber,
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.mail_outlined),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(25),
-                                    bottomLeft: Radius.circular(25)),
-                              ),
-                              //labelStyle: TextStyle(color: Colors.amber),
-                              labelText: 'Email',
-                              hintText: 'Emalinizi Girin',
-                              hintStyle: TextStyle(
-                                color: Colors.amber,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(10),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 0, bottom: 0),
-                          //padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: TextField(
-                            controller: passwordController,
-                            cursorColor: Colors.amber,
-                            obscureText: _isObscure,
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  icon: Icon(_isObscure
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isObscure = !_isObscure;
-                                    });
-                                  }),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(25),
-                                    bottomLeft: Radius.circular(25)),
-                              ),
-                              //labelStyle: TextStyle(color: Colors.amber),
-                              labelText: 'Şifre',
-                              hintText: 'Şifrenizi Girin...',
-                              hintStyle: TextStyle(
-                                color: Colors.amber,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 25),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 0, bottom: 0),
-                          //padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: TextField(
-                            cursorColor: Colors.amber,
-                            obscureText: _isobscure,
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  icon: Icon(_isobscure
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isobscure = !_isobscure;
-                                    });
-                                  }),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(25),
-                                    bottomLeft: Radius.circular(25)),
-                              ),
-                              //labelStyle: TextStyle(color: Colors.amber),
-                              labelText: 'Şifre Tekrar',
-                              hintText: 'Şifrenizi Tekrar Girin',
-                              hintStyle: TextStyle(
-                                color: Colors.amber,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.pink.shade900,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(25),
-                              topRight: Radius.circular(25)),
-                        ),
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 2.5, color: Colors.amber),
+                        Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Center(
+                    child:
+                        Text(errorMessage, style: TextStyle(color: Colors.red)),
+                  ),
+                ),
+                        Container(
+                          height: 50,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            color: Colors.pink.shade900,
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(25),
                                 topRight: Radius.circular(25)),
                           ),
-                          onPressed: () async {
-                            await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                    email: emailController.text,
-                                    password: passwordController.text);
-                                setState(() {
-                                  
-                                });
-                          }, // => _dialogalert(context),
-                          child: Text(
-                            'Kayıt Ol',
-                            style: GoogleFonts.fugazOne(
+                          child: FlatButton(
+                            
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(width: 2.5, color: Colors.amber),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25)),
+                            ),
+                            
+                            child: isLoading
+                            ? CircularProgressIndicator(color: Colors.amber, strokeWidth: 2,)
+                            : Text('Kayit Ol',style: GoogleFonts.fugazOne(
                               color: Colors.amber,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                            ),
+                            ),),
+                        onPressed: users != null
+                            ? null
+                            : () async {
+                                setState(() {
+                                  isLoading = true;
+                                  errorMessage = '';
+                                });
+                                if (_key.currentState!.validate()) {
+                                  try {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    ).then((_) => {
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HostHome())),
+                                    });
+                                  } on FirebaseAuthException catch (error) {
+                                    errorMessage = error.message!;
+                                  }
+                                  setState(() => isLoading = false);
+                                }
+                              }
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -361,3 +398,29 @@ class _RegisterState extends State<Register> {
 }
 
 void onPressed() {}
+String? validateEmail(String? formEmail) {
+  if (formEmail == null || formEmail.isEmpty)
+    return 'E-mail address is required.';
+
+  String pattern = r'\w+@\w+\.\w+';
+  RegExp regex = RegExp(pattern);
+  if (!regex.hasMatch(formEmail)) return 'Invalid E-mail Address format.';
+
+  return null;
+}
+
+String? validatePassword(String? formPassword) {
+  if (formPassword == null || formPassword.isEmpty)
+    return 'Password is required.';
+
+  String pattern =
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  RegExp regex = RegExp(pattern);
+  if (!regex.hasMatch(formPassword))
+    return '''
+      Password must be at least 8 characters,
+      include an uppercase letter, number and symbol.
+      ''';
+
+  return null;
+}

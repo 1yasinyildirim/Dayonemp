@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dayonemp/konum/filter.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+//import 'location/location.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Konum extends StatefulWidget {
@@ -13,7 +14,29 @@ class Konum extends StatefulWidget {
 
 SfRangeValues _values = SfRangeValues(40.0, 80.0);
 
-
+class _KonumState extends State<Konum> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            RaisedButton(
+                onPressed: () => displayBottomSheet(context),
+                color: Colors.pink.shade900,
+                child: Icon(LineIcons.mapMarked, color: Colors.amber)),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => LocFilter(),
+        backgroundColor: Colors.pink.shade900,
+        child: Icon(Icons.my_location_outlined, color: Colors.amber),
+      ),
+    );
+  }
+}
 
 void displayBottomSheet(BuildContext context) {
   showModalBottomSheet(
@@ -80,30 +103,6 @@ void displayBottomSheet(BuildContext context) {
           ),
         );
       });
-}
-
-class _KonumState extends State<Konum> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            RaisedButton(
-                onPressed: () => displayBottomSheet(context),
-                color: Colors.pink.shade900,
-                child: Icon(LineIcons.mapMarked, color: Colors.amber)),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => LocFilter(),
-        backgroundColor: Colors.pink.shade900,
-        child: Icon(Icons.my_location_outlined, color: Colors.amber),
-      ),
-    );
-  }
 }
 
 void onPressed() {}
