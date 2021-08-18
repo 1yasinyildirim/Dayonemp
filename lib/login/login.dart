@@ -5,6 +5,7 @@ import 'package:dayonemp/login/register.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:dayonemp/home.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,6 +24,38 @@ class _LoginState extends State<Login> {
   String errorMessage = '';
   bool isLoading = false;
 
+  void _logInWithGoogle() async {
+    setState(() {});
+    final googleSignIn = GoogleSignIn(scopes: ['email']);
+
+    try {
+      final googleSignInAccount = await googleSignIn.signIn();
+      if (googleSignInAccount == null) {
+        setState(() {});
+        return;
+      } else {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HostHome()));
+      }
+      final googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      var content = '';
+      switch (e.code) {
+        case 'invalid-credential':
+          content = 'hata';
+          break;
+      }
+    }
+  }
+
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
   @override
@@ -38,10 +71,9 @@ class _LoginState extends State<Login> {
       home: Scaffold(
         body: SingleChildScrollView(
           child: Form(
-            key : _key,
-                      child: Column(
+            key: _key,
+            child: Column(
               children: <Widget>[
-                
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
                   child: Center(
@@ -92,7 +124,6 @@ class _LoginState extends State<Login> {
                                 children: [
                                   TextFormField(
                                     controller: emailController,
-                                    
                                     keyboardType: TextInputType.emailAddress,
                                     cursorColor: Colors.amber,
                                     decoration: InputDecoration(
@@ -128,7 +159,6 @@ class _LoginState extends State<Login> {
                             child: Column(
                               children: [
                                 TextFormField(
-                                  
                                   controller: passwordController,
                                   cursorColor: Colors.amber,
                                   obscureText: _isObscure,
@@ -160,12 +190,12 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Center(
-                    child:
-                        Text(errorMessage, style: TextStyle(color: Colors.red)),
-                  ),
-                ),
+                          padding: EdgeInsets.all(12.0),
+                          child: Center(
+                            child: Text(errorMessage,
+                                style: TextStyle(color: Colors.red)),
+                          ),
+                        ),
                         FlatButton(
                           onPressed: () => _dialogalert(context),
                           child: Container(
@@ -192,42 +222,55 @@ class _LoginState extends State<Login> {
                                   topRight: Radius.circular(25)),
                             ),
                             child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(width: 2.5, color: Colors.amber),
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(25),
-                                    topRight: Radius.circular(25)),
-                              ),
-                              child: isLoading
-                            ? CircularProgressIndicator(color: Colors.amber, strokeWidth: 2,)
-                            : Text('Giris Yap',style: GoogleFonts.fugazOne(
-                              color: Colors.amber,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),),
-                        onPressed: user != null
-                            ? null
-                            : () async {
-                                setState(() {
-                                  isLoading = true;
-                                  errorMessage = '';
-                                });
-                                if (_key.currentState!.validate()) {
-                                  try {
-                                    await FirebaseAuth.instance
-                                        .signInWithEmailAndPassword(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    ).then((_) => {
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HostHome())),
-                                    });
-                                  } on FirebaseAuthException catch (error) {
-                                    errorMessage = error.message!;
-                                  }
-                                  setState(() => isLoading = false);
-                                }
-                              }
-                            ),
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      width: 2.5, color: Colors.amber),
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(25),
+                                      topRight: Radius.circular(25)),
+                                ),
+                                child: isLoading
+                                    ? CircularProgressIndicator(
+                                        color: Colors.amber,
+                                        strokeWidth: 2,
+                                      )
+                                    : Text(
+                                        'Giris Yap',
+                                        style: GoogleFonts.fugazOne(
+                                          color: Colors.amber,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                onPressed: user != null
+                                    ? null
+                                    : () async {
+                                        setState(() {
+                                          isLoading = true;
+                                          errorMessage = '';
+                                        });
+                                        if (_key.currentState!.validate()) {
+                                          try {
+                                            await FirebaseAuth.instance
+                                                .signInWithEmailAndPassword(
+                                                  email: emailController.text,
+                                                  password:
+                                                      passwordController.text,
+                                                )
+                                                .then((_) => {
+                                                      Navigator.of(context)
+                                                          .pushReplacement(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          HostHome())),
+                                                    });
+                                          } on FirebaseAuthException catch (error) {
+                                            errorMessage = error.message!;
+                                          }
+                                          setState(() => isLoading = false);
+                                        }
+                                      }),
                           ),
                         ),
                       ],
@@ -320,17 +363,9 @@ class _LoginState extends State<Login> {
                           shape: CircleBorder(),
                         ),
                         child: IconButton(
-                          icon: Icon(LineIcons.googlePlusG),
-                          color: Colors.pink.shade900,
-                          onPressed: () async {
-                            await _googleSignIn.signIn().then((_) {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => HostHome()));
-                            });
-                            //setState() {};
-                          },
-                        ),
+                            icon: Icon(LineIcons.googlePlusG),
+                            color: Colors.pink.shade900,
+                            onPressed: () => _logInWithGoogle()),
                       ),
                     ),
                     Container(
@@ -373,28 +408,6 @@ class _LoginState extends State<Login> {
 }
 
 void onPressed() {}
-showSnackBar(BuildContext context) {
-  final snackBar = SnackBar(
-      content: Text('E-mail veya şifre yanlış',
-          style: TextStyle(color: Colors.amber, fontWeight: FontWeight.w500)),
-      margin: EdgeInsets.all(30),
-      backgroundColor: Colors.pink.shade900,
-      shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.amber, width: 3),
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(25), topRight: Radius.circular(25))),
-      duration: Duration(milliseconds: 2000),
-      behavior: SnackBarBehavior.floating,
-      action: SnackBarAction(
-        label: 'Click',
-        onPressed: () {
-          print('Action is clicked');
-        },
-        textColor: Colors.amber,
-        disabledTextColor: Colors.grey,
-      ));
-  Scaffold.of(context).showSnackBar(snackBar);
-}
 
 _dialogalert(context) {
   Alert(

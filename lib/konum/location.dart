@@ -18,22 +18,7 @@ class _KonumState extends State<Konum> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            RaisedButton(
-                onPressed: () => displayBottomSheet(context),
-                color: Colors.pink.shade900,
-                child: Icon(LineIcons.mapMarked, color: Colors.amber)),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => LocFilter(),
-        backgroundColor: Colors.pink.shade900,
-        child: Icon(Icons.my_location_outlined, color: Colors.amber),
-      ),
+      body: Container()
     );
   }
 }
