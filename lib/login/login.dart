@@ -46,6 +46,9 @@ class _LoginState extends State<Login> {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
+
+      
+
     } on FirebaseAuthException catch (e) {
       var content = '';
       switch (e.code) {
