@@ -257,8 +257,7 @@ class _LoginState extends State<Login> {
                                             await FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
                                                   email: emailController.text,
-                                                  password:
-                                                      passwordController.text,
+                                                  password:passwordController.text,
                                                 )
                                                 .then((_) => {
                                                       Navigator.of(context)
@@ -388,11 +387,6 @@ class _LoginState extends State<Login> {
                               child: HostHome(),
                             ),
                           ),
-
-                          /*async {
-                              await _googleSignIn.signOut();
-                              setState(() {});
-                            }*/
                         ),
                       ),
                     ),
@@ -413,6 +407,7 @@ class _LoginState extends State<Login> {
 void onPressed() {}
 
 _dialogalert(context) {
+  final respas = TextEditingController(); 
   Alert(
       onWillPopActive: true,
       closeIcon: Container(
@@ -455,6 +450,7 @@ _dialogalert(context) {
           Container(
             margin: EdgeInsets.fromLTRB(5, 25, 5, 10),
             child: TextField(
+              controller: respas,
               keyboardType: TextInputType.emailAddress,
               cursorColor: Colors.amber,
               decoration: InputDecoration(
@@ -486,7 +482,10 @@ _dialogalert(context) {
           color: Colors.pink.shade900,
           radius: BorderRadius.only(
               bottomLeft: Radius.circular(15), topRight: Radius.circular(15)),
-          onPressed: () => Navigator.pop(context),
+          onPressed: ()  
+          async {
+            await FirebaseAuth.instance.sendPasswordResetEmail(email: respas.text).then((_) => Navigator.pop(context));
+          },
           child: Text(
             "Gonder",
             style: GoogleFonts.fugazOne(

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:dayonemp/konum/filter.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-//import 'location/location.dart';
+import 'package:location/location.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+var location = new Location();
 
 class Konum extends StatefulWidget {
   Konum({Key? key}) : super(key: key);
@@ -11,8 +12,6 @@ class Konum extends StatefulWidget {
   @override
   _KonumState createState() => _KonumState();
 }
-
-SfRangeValues _values = SfRangeValues(40.0, 80.0);
 
 class _KonumState extends State<Konum> {
   @override
