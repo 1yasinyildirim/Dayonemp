@@ -181,7 +181,6 @@ class _RegisterState extends State<Register> {
                             child: Column(
                               children: [
                                 TextFormField(
-                                  
                                   controller: passwordController,
                                   cursorColor: Colors.amber,
                                   obscureText: _isObscure,
@@ -219,32 +218,35 @@ class _RegisterState extends State<Register> {
                                 left: 15.0, right: 15.0, top: 0, bottom: 0),
                             //padding: EdgeInsets.symmetric(horizontal: 15),
                             child: TextFormField(
-                              controller: reppasController,
-                              cursorColor: Colors.amber,
-                              obscureText: _isobscure,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                    icon: Icon(_isobscure
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined),
-                                    onPressed: () {
-                                      setState(() {
-                                        _isobscure = !_isobscure;
-                                      });
-                                    }),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(25),
-                                      bottomLeft: Radius.circular(25)),
+                                controller: reppasController,
+                                cursorColor: Colors.amber,
+                                obscureText: _isobscure,
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                      icon: Icon(_isobscure
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isobscure = !_isobscure;
+                                        });
+                                      }),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(25),
+                                        bottomLeft: Radius.circular(25)),
+                                  ),
+                                  //labelStyle: TextStyle(color: Colors.amber),
+                                  labelText: 'Şifre Tekrar',
+                                  hintText: 'Şifrenizi Tekrar Girin',
+                                  hintStyle: TextStyle(
+                                    color: Colors.amber,
+                                  ),
                                 ),
-                                //labelStyle: TextStyle(color: Colors.amber),
-                                labelText: 'Şifre Tekrar',
-                                hintText: 'Şifrenizi Tekrar Girin',
-                                hintStyle: TextStyle(
-                                  color: Colors.amber,
-                                ),
-                              ),
-                            ),
+                                validator: (val) {
+                                  if (val != passwordController.text) return 'şifre aynı değil.';
+                                  return null;
+                                }),
                           ),
                         ),
                         Padding(
@@ -306,15 +308,13 @@ class _RegisterState extends State<Register> {
 
                                     await FirebaseFirestore.instance
                                         .collection("users")
-                                        .add(
-                                          {
-                                            'name': nameController.text,
-                                            'surname': surnameController.text,
-                                            'email': emailController.text,
-                                            'pasword': passwordController.text,
-                                            'repeatpassword' : reppasController.text
-                                          }
-                                        );
+                                        .add({
+                                      'name': nameController.text,
+                                      'surname': surnameController.text,
+                                      'email': emailController.text,
+                                      'pasword': passwordController.text,
+                                      'repeatpassword': reppasController.text
+                                    });
                                   } on FirebaseAuthException catch (error) {
                                     errorMessage = error.message!;
                                   }

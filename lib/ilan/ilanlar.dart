@@ -34,8 +34,7 @@ class _IlanlarState extends State<Ilanlar> {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(25), topRight: Radius.circular(25)),
           ),
-          //color: Colors.grey.shade100,
-          //shadowColor: Colors.black,
+          
           margin: EdgeInsets.all(8),
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             ListTile(
