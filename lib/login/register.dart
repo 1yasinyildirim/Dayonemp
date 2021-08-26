@@ -18,6 +18,11 @@ bool _isObscure = true;
 bool _isobscure = true;
 
 class _RegisterState extends State<Register> {
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  User? user = FirebaseAuth.instance.currentUser;
+
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final emailController = TextEditingController();
@@ -293,7 +298,7 @@ class _RegisterState extends State<Register> {
                                 });
                                 if (_key.currentState!.validate()) {
                                   try {
-                                    await FirebaseAuth.instance
+                                    FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
                                           email: emailController.text,
                                           password: passwordController.text,
@@ -305,10 +310,11 @@ class _RegisterState extends State<Register> {
                                                           builder: (context) =>
                                                               HostHome())),
                                             });
-
-                                    await FirebaseFirestore.instance
+                                     await FirebaseFirestore.instance
                                         .collection("users")
-                                        .add({
+                                        .doc(user!.uid)
+                                        .set({
+                                      'userid' : user!.uid,
                                       'name': nameController.text,
                                       'surname': surnameController.text,
                                       'email': emailController.text,

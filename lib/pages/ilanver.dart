@@ -8,6 +8,7 @@ import 'package:dayonemp/login/register.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dayonemp/login/register.dart';
 
 class Ilanver extends StatefulWidget {
   @override
@@ -15,14 +16,14 @@ class Ilanver extends StatefulWidget {
 }
 
 class _IlanverState extends State<Ilanver> {
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   String errorMessage = '';
   bool isLoading = false;
 
-  final adsoyad = TextEditingController();
+  final ilaniniz = TextEditingController();
   final unvan = TextEditingController();
   final konum = TextEditingController();
-  final tarih = TextEditingController();
   final fiyat = TextEditingController();
   final aciklama = TextEditingController();
 
@@ -32,34 +33,32 @@ class _IlanverState extends State<Ilanver> {
     behavior: SnackBarBehavior.floating,
     margin: EdgeInsets.all(15),
     shape: RoundedRectangleBorder(
-      side: BorderSide(width: 3, color: Colors.amber),
-      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topRight: Radius.circular(15))),
-    content: Text('İlan Başarıyla Eklendi'),
+        side: BorderSide(width: 3, color: Colors.amber),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(15), topRight: Radius.circular(15))),
+    content: Text('İlan Başarıyla Eklendi',
+        style: TextStyle(fontWeight: FontWeight.bold)),
     action: SnackBarAction(
-    label: 'Tamam',
-    onPressed: () {},
+      label: 'Tamam',
+      onPressed: () {},
     ),
-    );
+  );
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        //brightness: Brightness.dark,
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.amber, /*brightness: Brightness.dark*/
       ),
       home: Scaffold(
-        //backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Container(
-                height: 700,
+                height: 650,
                 margin: EdgeInsets.all(20),
                 child: Card(
-                  //color: Colors.grey.shade50,
-                  //shadowColor: Colors.grey,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(width: 3, color: Colors.pink.shade900),
                     borderRadius: BorderRadius.only(
@@ -74,18 +73,16 @@ class _IlanverState extends State<Ilanver> {
                           //padding:  EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Container(
-                            margin: EdgeInsets.fromLTRB(5, 25, 5, 10),
+                            margin: EdgeInsets.fromLTRB(10, 25, 10, 10),
                             child: Padding(
                               padding: EdgeInsets.only(
                                   left: 0, right: 0, top: 0, bottom: 0),
                               child: TextFormField(
-                                controller: adsoyad,
+                                controller: ilaniniz,
                                 keyboardType: TextInputType.name,
-                                textAlignVertical: TextAlignVertical.top,
-                                textAlign: TextAlign.left,
                                 cursorColor: Colors.amber,
                                 decoration: InputDecoration(
-                                  suffixIcon: Icon(LineIcons.alternateUser),
+                                  suffixIcon: Icon(LineIcons.user),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.amber,
@@ -96,8 +93,8 @@ class _IlanverState extends State<Ilanver> {
                                         bottomLeft: Radius.circular(25)),
                                   ),
                                   //labelStyle: TextStyle(color: Colors.amber),
-                                  labelText: 'Adınız ve Soyadınız',
-                                  hintText: 'Adınızı ve Soyadınızı girin...',
+                                  labelText: 'İlanınız',
+                                  hintText: 'İlanınızın Adı...',
                                   hintStyle: TextStyle(
                                     color: Colors.amber,
                                   ),
@@ -107,7 +104,7 @@ class _IlanverState extends State<Ilanver> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                          margin: EdgeInsets.all(10),
                           child: Padding(
                             padding: EdgeInsets.only(
                                 left: 15.0, right: 15.0, top: 0, bottom: 0),
@@ -125,7 +122,7 @@ class _IlanverState extends State<Ilanver> {
                                 ),
                                 //labelStyle: TextStyle(color: Colors.amber),
                                 labelText: 'Unvanınız',
-                                hintText: 'Unvanınızı Girin',
+                                hintText: 'Unvanınızı Giriniz...',
                                 hintStyle: TextStyle(
                                   color: Colors.amber,
                                 ),
@@ -134,84 +131,64 @@ class _IlanverState extends State<Ilanver> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                          margin: EdgeInsets.all(10),
                           child: Padding(
                             padding: EdgeInsets.only(
                                 left: 15.0, right: 15.0, top: 0, bottom: 0),
                             //padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: TextFormField(
-                              controller: konum,
-                              keyboardType: TextInputType.name,
-                              cursorColor: Colors.amber,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(LineIcons.mapMarker),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(25),
-                                      bottomLeft: Radius.circular(25)),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: konum,
+                                  keyboardType: TextInputType.emailAddress,
+                                  cursorColor: Colors.amber,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(LineIcons.mapMarker),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(25),
+                                          bottomLeft: Radius.circular(25)),
+                                    ),
+                                    //labelStyle: TextStyle(color: Colors.amber),
+                                    labelText: 'Konum',
+                                    hintText: 'Konumunuzu Girin',
+                                    hintStyle: TextStyle(
+                                      color: Colors.amber,
+                                    ),
+                                  ),
                                 ),
-                                //labelStyle: TextStyle(color: Colors.amber),
-                                labelText: 'Konum',
-                                hintText: 'Konumunuzu Girin',
-                                hintStyle: TextStyle(
-                                  color: Colors.amber,
-                                ),
-                              ),
+                              ],
                             ),
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                          margin: EdgeInsets.all(10),
                           child: Padding(
                             padding: EdgeInsets.only(
                                 left: 15.0, right: 15.0, top: 0, bottom: 0),
                             //padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: TextFormField(
-                              controller: tarih,
-                              keyboardType: TextInputType.datetime,
-                              cursorColor: Colors.amber,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(LineIcons.alternateCalendar),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(25),
-                                      bottomLeft: Radius.circular(25)),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  keyboardType: TextInputType.name,
+                                  controller: fiyat,
+                                  cursorColor: Colors.amber,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(LineIcons.turkishLiraSign),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(25),
+                                          bottomLeft: Radius.circular(25)),
+                                    ),
+                                    //labelStyle: TextStyle(color: Colors.amber),
+                                    labelText: 'Fiyat',
+                                    hintText: 'Fiyatı Giriniz...',
+                                    hintStyle: TextStyle(
+                                      color: Colors.amber,
+                                    ),
+                                  ),
                                 ),
-                                //labelStyle: TextStyle(color: Colors.amber),
-                                labelText: 'Tarih',
-                                hintText: 'Tarihi Girin',
-                                hintStyle: TextStyle(
-                                  color: Colors.amber,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 15.0, right: 15.0, top: 0, bottom: 0),
-                            //padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: TextFormField(
-                              controller: fiyat,
-                              keyboardType: TextInputType.number,
-                              cursorColor: Colors.amber,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(LineIcons.turkishLiraSign),
-                                //pfixIcon: Icon(LineIcons.turkishLiraSign),sola olan
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(25),
-                                      bottomLeft: Radius.circular(25)),
-                                ),
-                                //labelStyle: TextStyle(color: Colors.amber),
-                                labelText: 'Fiyat',
-                                hintText: 'Fiyat Kriterinizi Girin',
-                                hintStyle: TextStyle(
-                                  color: Colors.amber,
-                                ),
-                              ),
+                              ],
                             ),
                           ),
                         ),
@@ -223,7 +200,7 @@ class _IlanverState extends State<Ilanver> {
                             //padding: EdgeInsets.symmetric(horizontal: 15),
                             child: Container(
                               //margin:EdgeInsets.all(30),
-                              child: TextFormField(
+                              child: TextField(
                                 controller: aciklama,
                                 keyboardType: TextInputType.text,
                                 maxLines: 6,
@@ -252,8 +229,12 @@ class _IlanverState extends State<Ilanver> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 15,
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Center(
+                            child: Text(errorMessage,
+                                style: TextStyle(color: Colors.red)),
+                          ),
                         ),
                         Container(
                           height: 50,
@@ -265,60 +246,70 @@ class _IlanverState extends State<Ilanver> {
                                 topRight: Radius.circular(25)),
                           ),
                           child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(width: 2.5, color: Colors.amber),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(25),
-                                  topRight: Radius.circular(25)),
-                            ),
-                            onPressed: () async {
-                              setState(() {
-                                isLoading = true;
-                                errorMessage = '';
-                              });
-                              FirebaseFirestore.instance
-                                  .collection("ilanlar")
-                                  .add({
-                                "aciklama": aciklama.text,
-                                "ad_soyad": adsoyad.text,
-                                "tarih": tarih.text,
-                                "fiyat": fiyat.text,
-                                "konum": konum.text,
-                                "unvan": unvan.text
-                              });
-                              Timer.periodic( Duration(seconds: 5), (t) {
-      setState(() {
-        isLoading = false;
-      });
-      t.cancel(); 
-      ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-    });
-                              
-
-                            },
-                            child: isLoading
-                                ? CircularProgressIndicator(
-                                    color: Colors.amber,
-                                    strokeWidth: 2,
-                                  )
-                                : Text(
-                                    'Ilan Ver',
-                                    style: GoogleFonts.fugazOne(
+                              shape: RoundedRectangleBorder(
+                                side:
+                                    BorderSide(width: 2.5, color: Colors.amber),
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(25),
+                                    topRight: Radius.circular(25)),
+                              ),
+                              child: isLoading
+                                  ? CircularProgressIndicator(
                                       color: Colors.amber,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                      strokeWidth: 2,
+                                    )
+                                  : Text(
+                                      'Ilan Ver',
+                                      style: GoogleFonts.fugazOne(
+                                        color: Colors.amber,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                          ),
+                              onPressed: () async {
+                                setState(() {
+                                  isLoading = true;
+                                  errorMessage = '';
+                                });
+                                if (_key.currentState!.validate()) {
+                                  try {
+                                        //var useruid = "";
+                                    await FirebaseFirestore.instance
+                                        .collection("ilanlar")
+                                        .doc(ilaniniz.text)
+                                        .set({
+                                      //"userid": useruid,
+                                      "aciklama": aciklama.text,
+                                      "ilan": ilaniniz.text,
+                                      "fiyat": fiyat.text,
+                                      "konum": konum.text,
+                                      "unvan": unvan.text
+                                    });
+                                    /*.whenComplete(
+                                      () => 
+                                    );*/
+                                  } on FirebaseAuthException catch (error) {
+                                    errorMessage = error.message!;
+                                  } finally {
+                                    Timer(Duration(seconds: 3), () {
+                                      setState(() {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                        setState(() => isLoading = false);
+                                      });
+                                    });
+                                    //setState(() => isLoading = false);
+                                  }
+                                }
+                              }),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-              Container(
-                height: 30,
+              SizedBox(
+                height: 20,
               ),
             ],
           ),
