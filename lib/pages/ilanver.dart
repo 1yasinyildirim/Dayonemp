@@ -16,7 +16,6 @@ class Ilanver extends StatefulWidget {
 }
 
 class _IlanverState extends State<Ilanver> {
-
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   String errorMessage = '';
   bool isLoading = false;
@@ -273,21 +272,22 @@ class _IlanverState extends State<Ilanver> {
                                 });
                                 if (_key.currentState!.validate()) {
                                   try {
-                                        //var useruid = "";
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(user!.uid)
+                                        .get();
+
                                     await FirebaseFirestore.instance
                                         .collection("ilanlar")
                                         .doc(ilaniniz.text)
                                         .set({
-                                      //"userid": useruid,
+                                      "userid": user!.uid,
                                       "aciklama": aciklama.text,
                                       "ilan": ilaniniz.text,
                                       "fiyat": fiyat.text,
                                       "konum": konum.text,
                                       "unvan": unvan.text
                                     });
-                                    /*.whenComplete(
-                                      () => 
-                                    );*/
                                   } on FirebaseAuthException catch (error) {
                                     errorMessage = error.message!;
                                   } finally {

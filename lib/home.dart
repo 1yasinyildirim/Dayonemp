@@ -112,16 +112,14 @@ class _HostHomeState extends State<HostHome> {
 
     var currentUser = FirebaseAuth.instance.currentUser;
 
-    if (currentUser != null)
-    {
+    if (currentUser != null) {
       print(currentUser.uid);
     }
 
     getter() {
-      FirebaseFirestore.instance.collection("users").doc().get().then((gelen) {
-        setState(()
-        {
-        });
+      FirebaseFirestore.instance.collection("users").doc().get().then((gelen)
+      {
+        setState(() {});
       });
     }
 
