@@ -22,10 +22,9 @@ class _BasvurularState extends State<Basvurular> {
               backgroundColor: Colors.pink.shade900,
               color: Colors.amber,
           child: ListView(
-            padding: EdgeInsets.all(0),
             children: [
               ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(0,5,0,0),
+                  contentPadding: EdgeInsets.fromLTRB(5,0,5,0),
                           title:Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -37,7 +36,7 @@ class _BasvurularState extends State<Basvurular> {
           ),
           //color: Colors.grey.shade100,
           //shadowColor: Colors.black,
-          margin: EdgeInsets.all(8),
+          margin: EdgeInsets.all(0),
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             ListTile(
               leading: Icon(Icons.cases_outlined, color: Colors.amber),

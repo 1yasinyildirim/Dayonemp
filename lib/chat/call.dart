@@ -24,7 +24,7 @@ class _CallState extends State<Call> {
             padding: EdgeInsets.all(0),
             children: [
               ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(0,5,0,0),
+                  contentPadding: EdgeInsets.fromLTRB(5,0,5,0),
                           title:Card(
                 shape: RoundedRectangleBorder(
                   side: BorderSide( width:2,
@@ -33,7 +33,7 @@ class _CallState extends State<Call> {
                 ),
                 //color: Colors.grey.shade100,
                 //shadowColor: Colors.black,
-                margin: EdgeInsets.all(8),
+                margin: EdgeInsets.all(0),
                 child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   ListTile(
                     leading:IconButton(

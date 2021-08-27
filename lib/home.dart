@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dayonemp/pages/homepage.dart';
@@ -105,6 +106,25 @@ class _HostHomeState extends State<HostHome> {
 
   @override
   Widget build(BuildContext context) {
+    var ad = "";
+    var soyad = "";
+    var mail = "";
+
+    var currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null)
+    {
+      print(currentUser.uid);
+    }
+
+    getter() {
+      FirebaseFirestore.instance.collection("users").doc().get().then((gelen) {
+        setState(()
+        {
+        });
+      });
+    }
+
     GoogleSignInAccount? user = _googleSignIn.currentUser;
 
     return MaterialApp(
@@ -135,10 +155,13 @@ class _HostHomeState extends State<HostHome> {
                 ),
                 RaisedButton(
                   child: Text("Sign Out"),
-                  onPressed: (){
-        auth.signOut();
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Login()));
-      },
+                  onPressed: () {
+                    auth.signOut();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                        (Route<dynamic> route) => false);
+                  },
                 )
               ],
             ),
@@ -175,52 +198,52 @@ class _HostHomeState extends State<HostHome> {
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: Container(
-          height:50,
+          height: 50,
           child: SafeArea(
-              child: GNav(
-                curve: Curves.easeInCubic,
-                backgroundColor: Colors.amber,
-                textStyle: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink.shade900),
-                rippleColor: Colors.pink.shade800,
-                hoverColor: Colors.amber, //pink.shade900,
-                gap: 8,
-                activeColor: Colors.pink.shade900,
-                iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                duration: Duration(milliseconds: 600),
-                tabBackgroundColor: Colors.grey.shade300,
-                color: Colors.pink.shade900,
-                tabs: [
-                  GButton(
-                    icon: LineIcons.home,
-                    text: 'Anasayfa',
-                  ),
-                  GButton(
-                    icon: LineIcons.alternateMapMarked,
-                    text: 'Konum',
-                  ),
-                  GButton(
-                    icon: Icons.post_add,
-                    text: 'İlan Ver',
-                  ),
-                  GButton(
-                    icon: LineIcons.weixinWechat,
-                    text: 'Sohbet',
-                  ),
-                  GButton(
-                    icon: LineIcons.alternateFile,
-                    text: 'Başvurularım',
-                  ),
-                ],
-                selectedIndex: _selectedIndex,
-                onTabChange: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
+            child: GNav(
+              curve: Curves.easeInCubic,
+              backgroundColor: Colors.amber,
+              textStyle: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.pink.shade900),
+              rippleColor: Colors.pink.shade800,
+              hoverColor: Colors.amber, //pink.shade900,
+              gap: 8,
+              activeColor: Colors.pink.shade900,
+              iconSize: 24,
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              duration: Duration(milliseconds: 600),
+              tabBackgroundColor: Colors.grey.shade300,
+              color: Colors.pink.shade900,
+              tabs: [
+                GButton(
+                  icon: LineIcons.home,
+                  text: 'Anasayfa',
+                ),
+                GButton(
+                  icon: LineIcons.alternateMapMarked,
+                  text: 'Konum',
+                ),
+                GButton(
+                  icon: Icons.post_add,
+                  text: 'İlan Ver',
+                ),
+                GButton(
+                  icon: LineIcons.weixinWechat,
+                  text: 'Sohbet',
+                ),
+                GButton(
+                  icon: LineIcons.alternateFile,
+                  text: 'Başvurularım',
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
             ),
           ),
         ),
