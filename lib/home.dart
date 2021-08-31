@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dayonemp/login/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dayonemp/pages/homepage.dart';
@@ -117,13 +118,14 @@ class _HostHomeState extends State<HostHome> {
     }
 
     getter() {
-      FirebaseFirestore.instance.collection("users").doc().get().then((gelen)
-      {
+      FirebaseFirestore.instance.collection("users").doc().get().then((gelen) {
         setState(() {});
       });
     }
 
-    GoogleSignInAccount? user = _googleSignIn.currentUser;
+    //GoogleSignInAccount? user = _googleSignIn.currentUser;
+
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -137,32 +139,49 @@ class _HostHomeState extends State<HostHome> {
           width: MediaQuery.of(context).size.height * 0.3,
           height: double.maxFinite,
           child: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountName: Text("Yasin Yıldırım"),
-                  accountEmail: Text("Freelancer Yazılımcı"),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.pink.shade900,
-                    child: Text(
-                      "YY",
-                      style: TextStyle(fontSize: 40.0),
-                    ),
-                  ),
-                ),
-                RaisedButton(
-                  child: Text("Sign Out"),
-                  onPressed: () {
-                    auth.signOut();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => Login()),
-                        (Route<dynamic> route) => false);
-                  },
-                )
-              ],
-            ),
+            child: FutureBuilder<DocumentSnapshot>(
+                future: users.doc(user!.uid).get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+
+        if (snapshot.hasData && !snapshot.data!.exists) {
+          return Text("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+          return ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[
+                      UserAccountsDrawerHeader(
+                        accountName: Text("${data['name']} ${data['surname']}"),
+                        accountEmail: Text("${data['email']}"),
+                        currentAccountPicture: CircleAvatar(
+                          backgroundColor: Colors.pink.shade900,
+                          child: Text(
+                            "YY",
+                            style: TextStyle(fontSize: 40.0),
+                          ),
+                        ),
+                      ),
+                      RaisedButton(
+                        child: Text("Sign Out"),
+                        onPressed: () {
+                          auth.signOut();
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                              (Route<dynamic> route) => false);
+                        },
+                      )
+                    ],
+                  );
+        }
+        return Text("loading");
+                }),
           ),
         ),
         appBar: AppBar(

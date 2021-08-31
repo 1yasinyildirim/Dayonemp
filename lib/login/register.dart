@@ -16,16 +16,17 @@ class Register extends StatefulWidget {
 
   User? user = FirebaseAuth.instance.currentUser;
 
+final nameController = TextEditingController();
+  final surnameController = TextEditingController();
+  final emailController = TextEditingController();
+  final reppasController = TextEditingController();
+  final passwordController = TextEditingController();
 
 bool _isObscure = true;
 bool _isobscure = true;
 
 class _RegisterState extends State<Register> {
-  final nameController = TextEditingController();
-  final surnameController = TextEditingController();
-  final emailController = TextEditingController();
-  final reppasController = TextEditingController();
-  final passwordController = TextEditingController();
+  
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
