@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:dayonemp/pages/ilanver.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:dayonemp/login/register.dart';
 
 class Ilani extends StatelessWidget {
   @override
@@ -40,350 +42,491 @@ class _IlanlarState extends State<Ilanlar> {
             stream: _usersStream,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.pink.shade900,
-                    strokeWidth: 2,
-                    
-                  )
-                );
+                    child: CircularProgressIndicator(
+                  color: Colors.pink.shade900,
+                  strokeWidth: 2,
+                ));
               }
               return ListView(
-                  children: snapshot.data!.docs.map(
-                    (DocumentSnapshot document) {
-                      Map<String, dynamic> data =
-                          document.data()! as Map<String, dynamic>;
-                      return ListTile(
-                        contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                        title: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 2,
-                                  color: Colors.pink.shade900,
-                                  style: BorderStyle.solid),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(25),
-                                  topRight: Radius.circular(25)),
+                children: snapshot.data!.docs.map(
+                  (DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data()! as Map<String, dynamic>;
+                    return ListTile(
+                      contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      title: Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 2,
+                                color: Colors.pink.shade900,
+                                style: BorderStyle.solid),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(25),
+                                topRight: Radius.circular(25)),
+                          ),
+                          margin: EdgeInsets.all(0),
+                          child:
+                              Column(mainAxisSize: MainAxisSize.min, children: <
+                                  Widget>[
+                            ListTile(
+                              leading: Icon(Icons.cases_outlined,
+                                  color: Colors.amber),
+                              title: Text(data['ilan']),
+                              subtitle: Row(
+                                children: [
+                                  Text(
+                                    data['fiyat'],
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 20),
+                                  ),
+                                  Icon(
+                                    LineIcons.turkishLiraSign,
+                                    color: Colors.grey,
+                                  )
+                                ],
+                              ),
                             ),
-                            margin: EdgeInsets.all(0),
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  ListTile(
-                                    leading: Icon(Icons.cases_outlined,
-                                        color: Colors.amber),
-                                    title: Text(data['ilan']),
-                                    subtitle: Row(
-                                      children: [
-                                        Text(data['fiyat'],
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 20
-                                        ),
-                                        ),
-                                        Icon(LineIcons.turkishLiraSign,
-                                        color: Colors.grey,
-                                        )
-                                      ],
+                            ButtonTheme(
+                                child: ButtonBar(children: <Widget>[
+                              Container(
+                                width: 70,
+                                height: 35,
+                                child: FlatButton(
+                                  color: Colors.pink.shade900,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        width: 3,
+                                        color: Colors.amber,
+                                        style: BorderStyle.solid),
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15)),
+                                  ),
+                                  child: Text(
+                                    "Incele",
+                                    style: GoogleFonts.fugazOne(
+                                      color: Colors.amber,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  ButtonTheme(
-                                      child: ButtonBar(children: <Widget>[
-                                    Container(
-                                      width: 70,
-                                      height: 35,
-                                      child: FlatButton(
-                                        color: Colors.pink.shade900,
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              width: 3,
+                                  onPressed: () {
+                                    Alert(
+                                        onWillPopActive: true,
+                                        closeIcon: Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  width: 3, color: Colors.red),
+                                            ),
+                                            padding: EdgeInsets.all(2),
+                                            child: Icon(Icons.close_outlined,
+                                                size: 25, color: Colors.red)),
+                                        style: AlertStyle(
+                                          alertPadding: EdgeInsets.all(20),
+                                          overlayColor: Colors.white,
+                                          animationType: AnimationType.shrink,
+                                          animationDuration:
+                                              Duration(milliseconds: 600),
+                                          alertBorder: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(25),
+                                                topRight: Radius.circular(25)),
+                                            side: BorderSide(
                                               color: Colors.amber,
-                                              style: BorderStyle.solid),
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(15),
-                                              topRight: Radius.circular(15)),
-                                        ),
-                                        child: Text(
-                                          "Incele",
-                                          style: GoogleFonts.fugazOne(
-                                            color: Colors.amber,
-                                            fontWeight: FontWeight.bold,
+                                              width: 3,
+                                            ),
                                           ),
                                         ),
-                                        onPressed: () 
-                                        {
-  Alert(
-      onWillPopActive: true,
-      closeIcon: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(width: 3, color: Colors.red),
-          ),
-          padding: EdgeInsets.all(2),
-          child: Icon(Icons.close_outlined, size: 25, color: Colors.red)),
-      style: AlertStyle(
-        alertPadding: EdgeInsets.all(20),
-        overlayColor: Colors.white,
-        animationType: AnimationType.shrink,
-        animationDuration: Duration(milliseconds: 600),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(25), topRight: Radius.circular(25)),
-          side: BorderSide(
-            color: Colors.amber,
-            width: 3,
-          ),
-        ),
-      ),
-      context: context,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.centerLeft,
-            width: MediaQuery.of(context).size.height * 0.75,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "İlanı Veren",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Text(
-                      "Ilanı verenin adı",//data['userid'],
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                    width: MediaQuery.of(context).size.height * 0.075,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    )
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "İlanın Adı",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Text(
-                      data['ilan'],
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                    width: MediaQuery.of(context).size.height * 0.075,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    )
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Unvan",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Text(
-                      data['unvan'],
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                    width: MediaQuery.of(context).size.height * 0.075,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    )
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Konum",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Text(
-                      data['konum'],
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                    width: MediaQuery.of(context).size.height * 0.075,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    )
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Fiyatı",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Text(
-                      data['fiyat'],
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                    width: MediaQuery.of(context).size.height * 0.075,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    )
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Açıklama",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Text(
-                      data['aciklama'],
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                    width: MediaQuery.of(context).size.height * 0.075,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    )
-                  ],
-                ),
-                Column(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  //mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      child: Ink(
-                        decoration: ShapeDecoration(
-                          color: Colors.amber,
-                          shape: CircleBorder(),
-                        ),
-                        child: IconButton(
-                            icon: Icon(Icons.message_outlined),
-                            color: Colors.pink.shade900,
-                            onPressed: (){}),
-                      ),
-                    ),
-                    Container(
-                      child: Ink(
-                        decoration: ShapeDecoration(
-                          color: Colors.amber,
-                          shape: CircleBorder(),
-                        ),
-                        child: IconButton(
-                          icon: Icon(Icons.call_outlined),
-                          color: Colors.pink.shade900,
-                          onPressed: () {}
-                          ),
-                        ),
-                      ),
-                    
-                  ],
-                ),
-                    SizedBox(
-                    width: MediaQuery.of(context).size.height * 0.025,
-                    height: MediaQuery.of(context).size.height * 0.025,
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          width: MediaQuery.of(context).size.height * 0.2,
-          border: Border.all(width: 3, color: Colors.amber),
-          color: Colors.pink.shade900,
-          radius: BorderRadius.only(
-              bottomLeft: Radius.circular(15), topRight: Radius.circular(15)),
-          onPressed: ()
-          {
-            
-          }, 
-          child: Text(
-            "Basvuru Yap",
-            style: GoogleFonts.fugazOne(
-              color: Colors.amber,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        )
-      ]).show();
-                                        },
-                                      ),
-                                    ),
-                                  ]))
-                                ])),
-                      );
-                    },
-                  ).toList(),
-                  );
+                                        context: context,
+                                        content: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.centerLeft,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.75,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "İlanı Veren",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.grey,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data['name'] +
+                                                            ' ' +
+                                                            data['surname'],
+                                                        style: TextStyle(
+                                                          fontSize: 21,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "İlanın Adı",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.grey,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data['ilan'],
+                                                        style: TextStyle(
+                                                          fontSize: 21,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Unvan",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.grey,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data['unvan'],
+                                                        style: TextStyle(
+                                                          fontSize: 21,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Konum",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.grey,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data['konum'],
+                                                        style: TextStyle(
+                                                          fontSize: 21,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Fiyatı",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.grey,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data['fiyat'],
+                                                        style: TextStyle(
+                                                          fontSize: 21,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Açıklama",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.grey,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data['aciklama'],
+                                                        style: TextStyle(
+                                                          fontSize: 21,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    //crossAxisAlignment: CrossAxisAlignment.start,
+                                                    //mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          Container(
+                                                            child: Ink(
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                color: Colors
+                                                                    .amber,
+                                                                shape:
+                                                                    CircleBorder(),
+                                                              ),
+                                                              child: IconButton(
+                                                                  icon: Icon(Icons
+                                                                      .message_outlined),
+                                                                  color: Colors
+                                                                      .pink
+                                                                      .shade900,
+                                                                  onPressed:
+                                                                      () {}),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            child: Ink(
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                color: Colors
+                                                                    .amber,
+                                                                shape:
+                                                                    CircleBorder(),
+                                                              ),
+                                                              child: IconButton(
+                                                                  icon: Icon(Icons
+                                                                      .call_outlined),
+                                                                  color: Colors
+                                                                      .pink
+                                                                      .shade900,
+                                                                  onPressed:
+                                                                      () {}),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.025,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.025,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        buttons: [
+                                          DialogButton(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.2,
+                                            border: Border.all(
+                                                width: 3, color: Colors.amber),
+                                            color: Colors.pink.shade900,
+                                            radius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15)),
+                                            onPressed: () {
+                                            FirebaseFirestore.instance
+                                        .collection('basvurular')
+                                        .doc(data['name'] + ' ' + data['surname'])
+                                        .set({
+                                        "userid":user!.uid,
+                                      "ilaniveren":data['name'] + ' ' + data['surname'],
+                                      "ilaninadi":data['ilan'],
+                                      "aciklama": data['aciklama'],
+                                      "fiyat": data['fiyat'],
+                                      "konum": data['konum'],
+                                      "unvan":data['unvan']
+                                    });
+                                            },
+                                            child: Text(
+                                              "Basvuru Yap",
+                                              style: GoogleFonts.fugazOne(
+                                                color: Colors.amber,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          )
+                                        ]).show();
+                                  },
+                                ),
+                              ),
+                            ]))
+                          ])),
+                    );
+                  },
+                ).toList(),
+              );
             }),
       ),
     );

@@ -14,22 +14,23 @@ class Register extends StatefulWidget {
   _RegisterState createState() => _RegisterState();
 }
 
-bool _isObscure = true;
-bool _isobscure = true;
-
-class _RegisterState extends State<Register> {
-
-  FirebaseAuth auth = FirebaseAuth.instance;
-
   User? user = FirebaseAuth.instance.currentUser;
 
-  final nameController = TextEditingController();
+final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final emailController = TextEditingController();
   final reppasController = TextEditingController();
   final passwordController = TextEditingController();
 
+bool _isObscure = true;
+bool _isobscure = true;
+
+class _RegisterState extends State<Register> {
+  
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+
 
   String errorMessage = '';
   bool isLoading = false;
@@ -249,7 +250,8 @@ class _RegisterState extends State<Register> {
                                   ),
                                 ),
                                 validator: (val) {
-                                  if (val != passwordController.text) return 'şifre aynı değil.';
+                                  if (val != passwordController.text)
+                                    return 'şifre aynı değil.';
                                   return null;
                                 }),
                           ),
@@ -298,7 +300,7 @@ class _RegisterState extends State<Register> {
                                 });
                                 if (_key.currentState!.validate()) {
                                   try {
-                                    FirebaseAuth.instance
+                                    await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
                                           email: emailController.text,
                                           password: passwordController.text,
@@ -308,18 +310,18 @@ class _RegisterState extends State<Register> {
                                                   .pushReplacement(
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              HostHome())),
-                                            });
-                                     await FirebaseFirestore.instance
+                                                              HostHome())
+                                            )
+                                        });
+                                    await FirebaseFirestore.instance
                                         .collection("users")
                                         .doc(user!.uid)
                                         .set({
-                                      'userid' : user!.uid,
                                       'name': nameController.text,
                                       'surname': surnameController.text,
                                       'email': emailController.text,
                                       'pasword': passwordController.text,
-                                      'repeatpassword': reppasController.text
+                                      'userid': user!.uid
                                     });
                                   } on FirebaseAuthException catch (error) {
                                     errorMessage = error.message!;

@@ -18,7 +18,8 @@ class Dayonemp extends StatelessWidget {
       title: "Dayonemp",
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
-        splashTransition: SplashTransition.fadeTransition,
+        splashTransition: SplashTransition.scaleTransition,
+        curve: Curves.bounceIn,
         nextScreen: Login(),
         duration: 3,
         animationDuration: Duration(milliseconds: 1800),

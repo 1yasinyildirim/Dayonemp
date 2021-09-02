@@ -3,29 +3,27 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:dayonemp/home.dart';
 import 'package:dayonemp/login/register.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:dayonemp/login/register.dart';
 
 class Ilanver extends StatefulWidget {
   @override
   _IlanverState createState() => _IlanverState();
 }
 
-class _IlanverState extends State<Ilanver> {
-
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  String errorMessage = '';
-  bool isLoading = false;
-
-  final ilaniniz = TextEditingController();
+final ilaniniz = TextEditingController();
   final unvan = TextEditingController();
   final konum = TextEditingController();
   final fiyat = TextEditingController();
   final aciklama = TextEditingController();
+  
+class _IlanverState extends State<Ilanver> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  String errorMessage = '';
+  bool isLoading = false;
+
+  
 
   final snackBar = SnackBar(
     backgroundColor: Colors.pink.shade900,
@@ -170,7 +168,7 @@ class _IlanverState extends State<Ilanver> {
                             child: Column(
                               children: [
                                 TextFormField(
-                                  keyboardType: TextInputType.name,
+                                  keyboardType: TextInputType.number,
                                   controller: fiyat,
                                   cursorColor: Colors.amber,
                                   decoration: InputDecoration(
@@ -273,21 +271,24 @@ class _IlanverState extends State<Ilanver> {
                                 });
                                 if (_key.currentState!.validate()) {
                                   try {
-                                        //var useruid = "";
+                                   // await FirebaseFirestore.instance
+                                     //   .collection('users')
+                                       // .doc(user!.uid)
+                                        //.get();
+
                                     await FirebaseFirestore.instance
                                         .collection("ilanlar")
                                         .doc(ilaniniz.text)
                                         .set({
-                                      //"userid": useruid,
+                                      "userid": user!.uid,
+                                      "name":nameController.text,
+                                      "surname":surnameController.text,
                                       "aciklama": aciklama.text,
                                       "ilan": ilaniniz.text,
                                       "fiyat": fiyat.text,
                                       "konum": konum.text,
                                       "unvan": unvan.text
                                     });
-                                    /*.whenComplete(
-                                      () => 
-                                    );*/
                                   } on FirebaseAuthException catch (error) {
                                     errorMessage = error.message!;
                                   } finally {
