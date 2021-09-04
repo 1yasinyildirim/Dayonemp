@@ -15,7 +15,6 @@ dependencies:
   animated_splash_screen: ^1.1.0
   google_fonts: ^2.1.0
   custom_splash: ^0.0.2
-  shared_preferences: ^0.5.5
   flutter_statusbar_text_color: ^0.1.2
   google_nav_bar: ^5.0.5
   fancy_bottom_bar: ^0.0.1

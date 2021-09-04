@@ -5,9 +5,10 @@ import 'login/login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future <void> main() async {
+Future<void> main() async 
+{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp();;
   runApp(Dayonemp());
 }
 
