@@ -1,4 +1,6 @@
+import 'package:dayonemp/chat/chatscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Message extends StatefulWidget {
   Message({Key? key}) : super(key: key);
@@ -35,7 +37,16 @@ class _MessageState extends State<Message> {
                 child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   ListTile(
                     leading:IconButton(
-                        icon: Icon(Icons.message_outlined,color:Colors.amber), onPressed: onPressed),
+                        icon: Icon(Icons.message_outlined,color:Colors.amber),
+                        onPressed:()=> Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 500),
+                      child: MessageScreen(),
+                    ),
+                  ),
+                        ),
                     title: Text(
                       'Ad Soyad',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -50,8 +61,7 @@ class _MessageState extends State<Message> {
             ],
           ),
       ),
-                    /**/
-          );
+    );
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -15,7 +16,9 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-bool _isObscure = true;
+  
+
+  bool _isObscure = true;
 
 class _LoginState extends State<Login> {
   final emailController = TextEditingController();
@@ -46,9 +49,6 @@ class _LoginState extends State<Login> {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-
-      
-
     } on FirebaseAuthException catch (e) {
       var content = '';
       switch (e.code) {
@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    GoogleSignInAccount? user = _googleSignIn.currentUser;
+    GoogleSignInAccount? used = _googleSignIn.currentUser;
     User? users = FirebaseAuth.instance.currentUser;
 
     return MaterialApp(
@@ -245,19 +245,21 @@ class _LoginState extends State<Login> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                onPressed: user != null
+                                onPressed:/* user != null
                                     ? null
-                                    : () async {
+                                    : */() async {
                                         setState(() {
                                           isLoading = true;
                                           errorMessage = '';
                                         });
+
                                         if (_key.currentState!.validate()) {
                                           try {
                                             await FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
                                                   email: emailController.text,
-                                                  password:passwordController.text,
+                                                  password:
+                                                      passwordController.text,
                                                 )
                                                 .then((_) => {
                                                       Navigator.of(context)
@@ -267,6 +269,17 @@ class _LoginState extends State<Login> {
                                                                       (context) =>
                                                                           HostHome())),
                                                     });
+                                             /*await FirebaseFirestore.instance
+                                        .collection("loggeds")
+                                        .doc(emailController.text)
+                                        .set({
+                                      'name': nameController.text,
+                                      'surname': surnameController.text,
+                                      'email': emailController.text,
+                                      'pasword': passwordController.text,
+                                      'userid': user!.uid
+                                    });*/
+
                                           } on FirebaseAuthException catch (error) {
                                             errorMessage = error.message!;
                                           }
@@ -407,7 +420,7 @@ class _LoginState extends State<Login> {
 void onPressed() {}
 
 _dialogalert(context) {
-  final respas = TextEditingController(); 
+  final respas = TextEditingController();
   Alert(
       onWillPopActive: true,
       closeIcon: Container(
@@ -482,9 +495,10 @@ _dialogalert(context) {
           color: Colors.pink.shade900,
           radius: BorderRadius.only(
               bottomLeft: Radius.circular(15), topRight: Radius.circular(15)),
-          onPressed: ()  
-          async {
-            await FirebaseAuth.instance.sendPasswordResetEmail(email: respas.text).then((_) => Navigator.pop(context));
+          onPressed: () async {
+            await FirebaseAuth.instance
+                .sendPasswordResetEmail(email: respas.text)
+                .then((_) => Navigator.pop(context));
           },
           child: Text(
             "Gonder",
