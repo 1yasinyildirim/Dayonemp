@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dayonemp/pages/homepage.dart';
 import 'package:dayonemp/pages/ilanver.dart';
-import 'package:dayonemp/ilan/ilan.dart';
-import 'package:dayonemp/chat/chat.dart';
+import 'package:dayonemp/ilan/ilanlar.dart';
+import 'package:dayonemp/chat/message.dart';
 import 'package:dayonemp/konum/location.dart';
 import 'login/login.dart';
 import 'package:line_icons/line_icons.dart';
@@ -91,8 +91,8 @@ class _HostHomeState extends State<HostHome> {
     Anasayfa(),
     Konum(),
     Ilanver(),
-    Chatver(),
-    Ilan(),
+    Message(),
+    Ilani(),
   ];
 
   void _onItemTapped(int index) {

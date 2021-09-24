@@ -16,7 +16,9 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-bool _isObscure = true;
+  
+
+  bool _isObscure = true;
 
 class _LoginState extends State<Login> {
   final emailController = TextEditingController();
@@ -267,6 +269,17 @@ class _LoginState extends State<Login> {
                                                                       (context) =>
                                                                           HostHome())),
                                                     });
+                                             /*await FirebaseFirestore.instance
+                                        .collection("loggeds")
+                                        .doc(emailController.text)
+                                        .set({
+                                      'name': nameController.text,
+                                      'surname': surnameController.text,
+                                      'email': emailController.text,
+                                      'pasword': passwordController.text,
+                                      'userid': user!.uid
+                                    });*/
+
                                           } on FirebaseAuthException catch (error) {
                                             errorMessage = error.message!;
                                           }

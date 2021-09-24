@@ -13,17 +13,15 @@ class Ilanver extends StatefulWidget {
 }
 
 final ilaniniz = TextEditingController();
-  final unvan = TextEditingController();
-  final konum = TextEditingController();
-  final fiyat = TextEditingController();
-  final aciklama = TextEditingController();
-  
+final unvan = TextEditingController();
+final konum = TextEditingController();
+final fiyat = TextEditingController();
+final aciklama = TextEditingController();
+
 class _IlanverState extends State<Ilanver> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   String errorMessage = '';
   bool isLoading = false;
-
-  
 
   final snackBar = SnackBar(
     backgroundColor: Colors.pink.shade900,
@@ -271,24 +269,31 @@ class _IlanverState extends State<Ilanver> {
                                 });
                                 if (_key.currentState!.validate()) {
                                   try {
-                                   // await FirebaseFirestore.instance
-                                     //   .collection('users')
-                                       // .doc(user!.uid)
-                                        //.get();
+                                    // await FirebaseFirestore.instance
+                                    //   .collection('users')
+                                    // .doc(user!.uid)
+                                    //.get();
 
                                     await FirebaseFirestore.instance
                                         .collection("ilanlar")
                                         .doc(ilaniniz.text)
                                         .set({
-                                      "userid": user!.uid,
-                                      "name":nameController.text,
-                                      "surname":surnameController.text,
+                                      "userilan": user!.uid,
+                                      "name": nameController.text,
+                                      "surname": surnameController.text,
                                       "aciklama": aciklama.text,
                                       "ilan": ilaniniz.text,
                                       "fiyat": fiyat.text,
                                       "konum": konum.text,
                                       "unvan": unvan.text
                                     });
+                                    nameController.clear();
+                                    surnameController.clear();
+                                    aciklama.clear();
+                                    ilaniniz.clear();
+                                    fiyat.clear();
+                                    konum.clear();
+                                    unvan.clear();
                                   } on FirebaseAuthException catch (error) {
                                     errorMessage = error.message!;
                                   } finally {

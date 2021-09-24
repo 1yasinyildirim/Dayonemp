@@ -29,7 +29,11 @@ class _IlanlarState extends State<Ilanlar> {
   var currentUser = FirebaseAuth.instance.currentUser;
 
   final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('ilanlar').snapshots();
+      FirebaseFirestore.instance.collection('ilanlar')
+      //.where()
+      .snapshots();
+
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
@@ -498,9 +502,12 @@ class _IlanlarState extends State<Ilanlar> {
                                             onPressed: () {
                                             FirebaseFirestore.instance
                                         .collection('basvurular')
-                                        .doc(data['name'] + ' ' + data['surname'])
+                                        .doc(user!.uid)
+                                        //.where("countryName", isEqualTo: "italy")
                                         .set({
-                                        "userid":user!.uid,
+                                        "userbas":user!.uid,
+                                        //"namesur": users.doc(user!.uid).get(),
+                                        "aduser":data['userilan'],
                                       "ilaniveren":data['name'] + ' ' + data['surname'],
                                       "ilaninadi":data['ilan'],
                                       "aciklama": data['aciklama'],

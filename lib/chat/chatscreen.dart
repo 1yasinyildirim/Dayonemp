@@ -31,6 +31,7 @@ class _MessageScreenState extends State<MessageScreen> {
             children: [
               Expanded(
                 child: Container(
+                  width:  MediaQuery.of(context).size.height * 0.9,
                   decoration: BoxDecoration(
                     
                       border: Border(
@@ -45,7 +46,7 @@ class _MessageScreenState extends State<MessageScreen> {
                   onPressed: () {
                     if (msg.text.isNotEmpty) {
                       storeMessage.collection("messages")
-                      .doc(user!.uid) //random eklense düzelir
+                      .doc(msg.text.trim()) //random eklense düzelir
                       .set({
                         "message": msg.text.trim(),
                         "user": user!.uid,
@@ -97,10 +98,9 @@ class ShowMessage extends StatelessWidget {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
                 return Container(
-                  height:50,
                   //color:Colors.red,
                   child: ListTile(
-                    
+                    //subtitle: Text(DateTime.utc(year)),
                     title: Column(
                       crossAxisAlignment: user!.uid == data['user']
                       ? CrossAxisAlignment.end
