@@ -1,4 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:dayonemp/pageview/pageview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'login/login.dart';
@@ -21,7 +22,7 @@ class Dayonemp extends StatelessWidget {
       home: AnimatedSplashScreen(
         splashTransition: SplashTransition.scaleTransition,
         curve: Curves.bounceIn,
-        nextScreen: Login(),
+        nextScreen: Pageviewing(),
         duration: 3,
         animationDuration: Duration(milliseconds: 1800),
         centered: true,

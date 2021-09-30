@@ -1,3 +1,4 @@
+import 'package:dayonemp/login/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -15,40 +16,20 @@ class _PageviewingState extends State<Pageviewing> {
 
   List<Widget> _pages = [
     SliderPage(
-        title: "",
-        description:
-            "",
+      title: "Dayonemp Nedir?\nNe Amaçla Kullanılmaktadır?",
+      description:
+            "Bu uygulama sadece geçici işler için kullanılabilir. Kalıcı işler için kullanılamaz.\nBu uygulama sayesinde kısa süreliğine bile olsa para kazanabileceksiniz ve bu kalkınmaya da yol açmaktadır",
         image: ""),
     SliderPage(
-        title: "",
+        title: "Uygulama Hakkında",
         description:
-            "",
+            "Bu uygulamada karışıklığın önlenmesi için 3 çeşit kullanıcı bulunmaktadır. Bunlar Admin, İşveren ve İşci dir.\nAdmin sadece İşveren in verdiği ilanları Onaylayabilecek veya Reddedebilecek. ve bunun dışında sohbet ve sesli arama özelliklerini de kullanabilecek.",
         image: ""),
     SliderPage(
-        title: "",
+        title: "Özellikleri",
         description:
-            "",
+            "Sesli arama\nMesajlaşma\nYakın Konum\n 3 çeşit Kullanıcı",
         image: ""),
-    Column(
-      mainAxisAlignment:MainAxisAlignment.center,
-      children:
-      [
-        Container(
-          width:250,
-          child:
-          Text(
-            ""
-          ,style:GoogleFonts.amaticSc(
-                height: 1.5,
-                fontWeight: FontWeight.normal,
-                fontSize: 18,
-                letterSpacing: 0.5,
-          )
-              ),
-        ),
-        SizedBox(height:50),
-      ],
-    )
   ];
 
   _onchanged(int index) {
@@ -86,8 +67,8 @@ class _PageviewingState extends State<Pageviewing> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: (index == _currentPage)
-                                ? Colors.blue
-                                : Colors.blue.withOpacity(0.5)));
+                                ? Colors.amber
+                                : Colors.amber.withOpacity(0.5)));
                   })),
               InkWell(
                 onTap: () {
@@ -101,7 +82,7 @@ class _PageviewingState extends State<Pageviewing> {
                   height: 70,
                   width: (_currentPage == (_pages.length - 1)) ? 200 : 75,
                   decoration: BoxDecoration(
-                      color: Colors.blue[200],
+                      color: Colors.amber[200],
                       borderRadius: BorderRadius.circular(35)),
                   child: (_currentPage == (_pages.length - 1))
                       ? FlatButton(
@@ -110,7 +91,7 @@ class _PageviewingState extends State<Pageviewing> {
                             PageTransition(
                               type: PageTransitionType.rightToLeft,
                               duration: Duration(milliseconds: 500),
-                              child: HostHome(),
+                              child: Register(),
                             ),
                           ),
                           child: Text(
