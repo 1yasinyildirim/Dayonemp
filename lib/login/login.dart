@@ -269,16 +269,6 @@ class _LoginState extends State<Login> {
                                                                       (context) =>
                                                                           HostHome())),
                                                     });
-                                             /*await FirebaseFirestore.instance
-                                        .collection("loggeds")
-                                        .doc(emailController.text)
-                                        .set({
-                                      'name': nameController.text,
-                                      'surname': surnameController.text,
-                                      'email': emailController.text,
-                                      'pasword': passwordController.text,
-                                      'userid': user!.uid
-                                    });*/
 
                                           } on FirebaseAuthException catch (error) {
                                             errorMessage = error.message!;

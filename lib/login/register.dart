@@ -14,23 +14,19 @@ class Register extends StatefulWidget {
   _RegisterState createState() => _RegisterState();
 }
 
-  User? user = FirebaseAuth.instance.currentUser;
+User? user = FirebaseAuth.instance.currentUser;
 
 final nameController = TextEditingController();
-  final surnameController = TextEditingController();
-  final emailController = TextEditingController();
-  final reppasController = TextEditingController();
-  final passwordController = TextEditingController();
+final surnameController = TextEditingController();
+final emailController = TextEditingController();
+final reppasController = TextEditingController();
+final passwordController = TextEditingController();
 
 bool _isObscure = true;
 bool _isobscure = true;
 
 class _RegisterState extends State<Register> {
-  
-
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-
-
 
   String errorMessage = '';
   bool isLoading = false;
@@ -310,9 +306,8 @@ class _RegisterState extends State<Register> {
                                                   .pushReplacement(
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              HostHome())
-                                            )
-                                        });
+                                                              HostHome()))
+                                            });
                                     await FirebaseFirestore.instance
                                         .collection("users")
                                         .doc(user!.uid)

@@ -48,11 +48,11 @@ class _MessageState extends State<Message> {
                   ),
                         ),
                     title: Text(
-                      'Ad Soyad',
+                      'Murat Yüksel',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(
-                      'attığı mesaj',
+                      'Merhabalar ilanınız için yazmıştım',
                       style: TextStyle(fontSize: 15),
                     ),
                   ),
@@ -64,5 +64,3 @@ class _MessageState extends State<Message> {
     );
   }
 }
-
-void onPressed() {}

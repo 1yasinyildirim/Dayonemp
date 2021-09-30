@@ -1,9 +1,11 @@
+import 'package:dayonemp/chat/chatscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dayonemp/pages/ilanver.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:dayonemp/login/register.dart';
 
@@ -443,8 +445,14 @@ class _IlanlarState extends State<Ilanlar> {
                                                                   color: Colors
                                                                       .pink
                                                                       .shade900,
-                                                                  onPressed:
-                                                                      () {}),
+                                                                  onPressed:()=> Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 500),
+                      child: MessageScreen(),
+                    ),
+                  ),),
                                                             ),
                                                           ),
                                                           Container(

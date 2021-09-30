@@ -20,7 +20,7 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text("Kullanıcının Adı"),
+        title:Text("Yasin Yıldırım"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
